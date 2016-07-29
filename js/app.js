@@ -1,8 +1,8 @@
 $('document').ready(function(){
 
-
-  $('.image').append(image.imageTagBuilder(image.image2));
-  loopThruImages();
+  imageController.displayFirstImage();
+  var nextClass = $('#nextImage').text();
+  console.log(nextClass);
 
 });
 
@@ -17,19 +17,26 @@ const image = {
 }
 const images = [image.image1, image.image2, image.image3, image.image4];
 
-// const loopThruImages = function(){
-//
-//
-//   for (let image of images){
-//       setTimeout(() => {
-//         console.log(image);
-//       }, 1000);
-//   }
-//
-// }
+const imageController = {
+  displayFirstImage() {
+    $('.image').append(image.imageTagBuilder(image.image1));
+  },
+
+  next() {
+
+  },
+  firstImage: images[0]
+}
+
+//-------------------------------------
+/*
+//next will give me either 1, 2, 3, 0
 
 
-// /      setTimeout(() => {
-//         console.log(this);
-//         this.classList.toggle(second);
-//       }, 500);
+if (currentImage !== 3) {
+  imageNumber + 1;
+} else if (currentImage === 3) {
+  imageNumber = 0;
+}
+
+*/
