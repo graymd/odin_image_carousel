@@ -1,0 +1,6 @@
+.pictureFrame {
+  width: 900px;
+  margin: 0 auto;
+  border: 2px solid black;
+  height: 500px;
+}
