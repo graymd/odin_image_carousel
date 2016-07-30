@@ -1,12 +1,19 @@
 $('document').ready(function(){
-
-  imageController.displayFirstImage();
-  var nextClass = $('#nextImage').text();
-  console.log(nextClass);
+  imageController.displayImage();
+  $('.imageControlButton').click(function(){
+    console.log($(this).attr("id"));
+    imageController.moveImage($(this).attr("id"));
+  });
+  imageController.rotateImage();
+  $('.dot').click(function(){
+    console.log($(this).attr("id"));
+    dotController.selectImageFrom($(this).attr("id"));
+  });
+  // dotController.hightlightCurrentImageDot();
 
 });
 
-const image = {
+const images = {
   image1: "https://www.placecage.com/900/500",
   image2: "http://www.fillmurray.com/900/500",
   image3: "https://www.placecage.com/c/900/500",
@@ -15,28 +22,65 @@ const image = {
     return `<image src="${image}"></img>`;
   },
 }
-const images = [image.image1, image.image2, image.image3, image.image4];
 
 const imageController = {
-  displayFirstImage() {
-    $('.image').append(image.imageTagBuilder(image.image1));
+  displayImage() {
+    $('.image').empty();
+    $('.image').append(images.imageTagBuilder(images[this.imageBuilder()]));
+    dotController.hightlightCurrentImageDot();
   },
-
-  next() {
-
+  rotateImage() {
+    setTimeout(function(){
+      imageController.nextImage();
+      imageController.displayImage();
+      imageController.rotateImage();
+    }, 5000);
   },
-  firstImage: images[0]
+  moveImage(direction) {
+    if (direction === "nextImage") {
+      this.nextImage();
+    } else {
+      this.previousImage();
+    }
+    this.displayImage();
+  },
+  nextImage() {
+    if (this.currentImage !== 4){
+      this.currentImage += 1;
+    } else if (this.currentImage === 4){
+      this.currentImage = 1;
+    }
+  },
+  previousImage() {
+    if (this.currentImage !== 1){
+      this.currentImage -= 1;
+    } else if (this.currentImage === 1){
+      this.currentImage = 4;
+    }
+  },
+  currentImage: 1,
+  imageBuilder() {
+    return `image${this.currentImage}`
+  },
+  selectImage(number) {
+    this.currentImage = number;
+    this.displayImage();
+  }
 }
 
-//-------------------------------------
-/*
-//next will give me either 1, 2, 3, 0
+const dotController = {
+  hightlightCurrentImageDot() {
+    $(".dot").removeClass("active");
+    console.log(this.activeDot());
+    $(`#${this.activeDot()}`).addClass("active");
+  },
+  activeDot(){
+    return `dot${imageController.currentImage}`
+  },
+  selectImageFrom(dotNumber){
+    num = dotNumber.charAt(3);
+    imageController.selectImage(parseInt(num));
+  },
 
 
-if (currentImage !== 3) {
-  imageNumber + 1;
-} else if (currentImage === 3) {
-  imageNumber = 0;
 }
-
-*/
